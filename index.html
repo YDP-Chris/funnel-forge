@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FunnelForge - Free Funnel Builder</title>
-    <meta name="description" content="Build professional landing page funnels and export static HTML files. Free forever, no subscriptions.">
+    <title>FunnelForge - Free Funnel Builder | Export Static HTML Files</title>
+    <meta name="description" content="Stop paying $97/month for funnel builders. Build professional landing pages with conversion-tested templates, export static HTML files you own forever. Free, no subscriptions.">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="FunnelForge - Free Funnel Builder">
+    <meta property="og:description" content="Build professional funnels, export static HTML files. Free forever, no subscriptions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://funnelforge.com">
+    <meta property="og:image" content="https://funnelforge.com/og-image.jpg">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FunnelForge - Free Funnel Builder">
+    <meta name="twitter:description" content="Build funnels, export HTML, deploy anywhere. Free forever.">
+    <meta name="twitter:image" content="https://funnelforge.com/twitter-card.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 
     <!-- Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,26 +29,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <style>
+        :root {
+            --color-primary: #FF6B35;
+            --color-secondary: #2563EB;
+            --color-accent: #059669;
+            --color-text-primary: #1F2937;
+            --color-text-secondary: #6B7280;
+            --color-background: #FFFFFF;
+            --color-surface: #F3F4F6;
+        }
+
         .template-preview {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--color-secondary) 0%, #1E40AF 100%);
             min-height: 200px;
             position: relative;
         }
 
         .template-preview.product-launch {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            background: linear-gradient(135deg, var(--color-primary) 0%, #DC2626 100%);
         }
 
         .template-preview.lead-magnet {
-            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            background: linear-gradient(135deg, var(--color-accent) 0%, #047857 100%);
         }
 
         .template-preview.service-signup {
-            background: linear-gradient(135deg, #6a82fb 0%, #fc5c7d 100%);
+            background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
         }
 
         .template-preview.event-registration {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            background: linear-gradient(135deg, #F59E0B 0%, var(--color-primary) 100%);
         }
 
         .editable {
@@ -43,13 +69,13 @@
         }
 
         .editable:hover {
-            border-color: #3b82f6;
-            background-color: rgba(59, 130, 246, 0.05);
+            border-color: var(--color-secondary);
+            background-color: rgba(37, 99, 235, 0.05);
         }
 
         .editable.editing {
-            border-color: #10b981;
-            background-color: rgba(16, 185, 129, 0.1);
+            border-color: var(--color-accent);
+            background-color: rgba(5, 150, 105, 0.1);
             outline: none;
         }
 
@@ -76,10 +102,10 @@
             <div class="flex justify-between items-center py-6">
                 <div class="flex items-center">
                     <h1 class="text-2xl font-bold text-gray-900">FunnelForge</h1>
-                    <span class="ml-2 text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full">Free Forever</span>
+                    <span class="ml-2 text-sm px-2 py-1 rounded-full" style="background-color: rgba(5, 150, 105, 0.1); color: var(--color-accent);">Free Forever</span>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button id="export-btn" class="hidden bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                    <button id="export-btn" class="hidden bg-orange-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-orange-600 transition-colors">
                         Export HTML
                     </button>
                     <button id="back-to-templates" class="hidden text-gray-600 hover:text-gray-900">
@@ -97,10 +123,10 @@
         <div id="template-selection" class="space-y-8">
             <div class="text-center max-w-3xl mx-auto">
                 <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">
-                    Build Converting Funnels
+                    Stop Paying $97/Month for Funnel Builders
                 </h2>
                 <p class="mt-4 text-xl text-gray-600">
-                    Choose a template, customize your content, and export professional HTML files. No monthly fees, no platform lock-in.
+                    Build professional landing pages with conversion-tested templates, then export static HTML files you own forever. No subscriptions, no platform lock-in.
                 </p>
             </div>
 
@@ -111,7 +137,7 @@
                         <div class="text-white text-center">
                             <h3 class="text-2xl font-bold mb-2">New Product</h3>
                             <p class="text-lg opacity-90">Launch Something Amazing</p>
-                            <div class="mt-4 bg-white text-red-500 px-6 py-2 rounded font-semibold">Get Early Access</div>
+                            <div class="mt-4 bg-white px-6 py-2 rounded font-semibold" style="color: var(--color-primary);">Get Early Access</div>
                         </div>
                     </div>
                     <div class="p-6">
@@ -257,7 +283,7 @@
                 <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center justify-between">
                     <span class="text-sm font-medium text-gray-700">Preview</span>
                     <div class="flex items-center space-x-2">
-                        <button id="preview-desktop" class="preview-mode-btn bg-blue-600 text-white px-3 py-1 rounded text-xs">Desktop</button>
+                        <button id="preview-desktop" class="preview-mode-btn bg-orange-500 text-white px-3 py-1 rounded text-xs">Desktop</button>
                         <button id="preview-mobile" class="preview-mode-btn bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs">Mobile</button>
                     </div>
                 </div>
