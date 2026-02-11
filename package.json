@@ -1,0 +1,16 @@
+{
+  "name": "funnel-forge",
+  "version": "1.0.0",
+  "description": "Free funnel builder that exports static HTML files",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Build successful - static files ready'",
+    "dev": "python -m http.server 8000",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["funnel", "landing-page", "static", "export", "free"],
+  "author": "Chris Ford / Foundry",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunnelForge - Free Funnel Builder</title>
+    <meta name="description" content="Build professional landing page funnels and export static HTML files. Free forever, no subscriptions.">
+
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- JSZip for export functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <style>
+        .template-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 200px;
+            position: relative;
+        }
+
+        .template-preview.product-launch {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+
+        .template-preview.lead-magnet {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        }
+
+        .template-preview.service-signup {
+            background: linear-gradient(135deg, #6a82fb 0%, #fc5c7d 100%);
+        }
+
+        .template-preview.event-registration {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .editable {
+            border: 2px dashed transparent;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .editable:hover {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        .editable.editing {
+            border-color: #10b981;
+            background-color: rgba(16, 185, 129, 0.1);
+            outline: none;
+        }
+
+        .preview-frame {
+            transform: scale(0.6);
+            transform-origin: top left;
+            width: 166.67%;
+            height: 166.67%;
+        }
+
+        .color-picker {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-gray-900">FunnelForge</h1>
+                    <span class="ml-2 text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full">Free Forever</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="export-btn" class="hidden bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                        Export HTML
+                    </button>
+                    <button id="back-to-templates" class="hidden text-gray-600 hover:text-gray-900">
+                        ← Back to Templates
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Template Selection Screen -->
+        <div id="template-selection" class="space-y-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">
+                    Build Converting Funnels
+                </h2>
+                <p class="mt-4 text-xl text-gray-600">
+                    Choose a template, customize your content, and export professional HTML files. No monthly fees, no platform lock-in.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <!-- Product Launch Template -->
+                <div class="template-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer" data-template="product-launch">
+                    <div class="template-preview product-launch flex items-center justify-center">
+                        <div class="text-white text-center">
+                            <h3 class="text-2xl font-bold mb-2">New Product</h3>
+                            <p class="text-lg opacity-90">Launch Something Amazing</p>
+                            <div class="mt-4 bg-white text-red-500 px-6 py-2 rounded font-semibold">Get Early Access</div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-semibold text-gray-900">Product Launch</h4>
+                        <p class="text-gray-600 mt-2">High-energy template for announcing new products, features, or services. Perfect for generating pre-launch buzz.</p>
+                    </div>
+                </div>
+
+                <!-- Lead Magnet Template -->
+                <div class="template-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer" data-template="lead-magnet">
+                    <div class="template-preview lead-magnet flex items-center justify-center">
+                        <div class="text-white text-center">
+                            <h3 class="text-2xl font-bold mb-2">Free Guide</h3>
+                            <p class="text-lg opacity-90">Download our blueprint</p>
+                            <div class="mt-4 bg-white text-teal-600 px-6 py-2 rounded font-semibold">Download Now</div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-semibold text-gray-900">Lead Magnet</h4>
+                        <p class="text-gray-600 mt-2">Perfect for offering free resources in exchange for email addresses. Ideal for building your email list.</p>
+                    </div>
+                </div>
+
+                <!-- Service Signup Template -->
+                <div class="template-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer" data-template="service-signup">
+                    <div class="template-preview service-signup flex items-center justify-center">
+                        <div class="text-white text-center">
+                            <h3 class="text-2xl font-bold mb-2">Professional Service</h3>
+                            <p class="text-lg opacity-90">Get expert help today</p>
+                            <div class="mt-4 bg-white text-purple-600 px-6 py-2 rounded font-semibold">Book Consultation</div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-semibold text-gray-900">Service Signup</h4>
+                        <p class="text-gray-600 mt-2">Professional template for consultants, agencies, and service providers. Builds trust and drives bookings.</p>
+                    </div>
+                </div>
+
+                <!-- Event Registration Template -->
+                <div class="template-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer" data-template="event-registration">
+                    <div class="template-preview event-registration flex items-center justify-center text-gray-800">
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold mb-2">Live Workshop</h3>
+                            <p class="text-lg opacity-90">Join us March 15th</p>
+                            <div class="mt-4 bg-gray-800 text-white px-6 py-2 rounded font-semibold">Reserve Seat</div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-lg font-semibold text-gray-900">Event Registration</h4>
+                        <p class="text-gray-600 mt-2">Drive signups for webinars, workshops, and live events. Includes urgency elements and social proof.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editor Screen -->
+        <div id="editor-screen" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Editor Panel -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Edit Content</h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Headline (60 chars max)</label>
+                            <input type="text" id="headline-input" maxlength="60" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your amazing product headline">
+                            <p class="text-sm text-gray-500 mt-1">Characters remaining: <span id="headline-count">60</span></p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Subheadline (120 chars max)</label>
+                            <textarea id="subheadline-input" maxlength="120" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Supporting text that explains your value proposition"></textarea>
+                            <p class="text-sm text-gray-500 mt-1">Characters remaining: <span id="subheadline-count">120</span></p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Button Text</label>
+                            <input type="text" id="button-input" maxlength="25" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Get Started">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Your Email (for testing)</label>
+                            <input type="email" id="email-input" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="you@example.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Style Customization -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Customize Style</h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Primary Color</label>
+                            <div class="flex items-center space-x-3">
+                                <input type="color" id="primary-color" value="#3b82f6" class="color-picker">
+                                <span class="text-sm text-gray-600">Button and accent color</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Background Color</label>
+                            <div class="flex items-center space-x-3">
+                                <input type="color" id="background-color" value="#ffffff" class="color-picker">
+                                <span class="text-sm text-gray-600">Main background color</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Text Color</label>
+                            <div class="flex items-center space-x-3">
+                                <input type="color" id="text-color" value="#1f2937" class="color-picker">
+                                <span class="text-sm text-gray-600">Headline and body text</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Integration -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Email Integration</h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Service</label>
+                            <select id="email-service" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="netlify">Netlify Forms (Free)</option>
+                                <option value="formspree">Formspree (Free tier)</option>
+                                <option value="convertkit">ConvertKit (API)</option>
+                                <option value="mailchimp">Mailchimp (Form action)</option>
+                            </select>
+                        </div>
+
+                        <div id="integration-help" class="text-sm text-gray-600 bg-gray-50 p-3 rounded">
+                            <strong>Netlify Forms:</strong> Just deploy to Netlify - form submissions will appear in your dashboard automatically. No configuration needed.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+                    <span class="text-sm font-medium text-gray-700">Preview</span>
+                    <div class="flex items-center space-x-2">
+                        <button id="preview-desktop" class="preview-mode-btn bg-blue-600 text-white px-3 py-1 rounded text-xs">Desktop</button>
+                        <button id="preview-mobile" class="preview-mode-btn bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs">Mobile</button>
+                    </div>
+                </div>
+                <div id="preview-container" class="preview-desktop">
+                    <iframe id="preview-frame" class="w-full h-96 lg:h-screen" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Templates Data -->
+    <script id="templates-data" type="application/json">
+    {
+        "product-launch": {
+            "name": "Product Launch",
+            "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>{{headline}} - Product Launch</title>\n    <meta name=\"description\" content=\"{{subheadline}}\">\n    <style>\n        * { margin: 0; padding: 0; box-sizing: border-box; }\n        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: {{textColor}}; background: {{backgroundColor}}; }\n        .container { max-width: 800px; margin: 0 auto; padding: 2rem; text-align: center; }\n        .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; }\n        h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.2; }\n        .subheadline { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.8; }\n        .cta-button { display: inline-block; background: {{primaryColor}}; color: white; padding: 1rem 2rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: transform 0.2s; }\n        .cta-button:hover { transform: translateY(-2px); }\n        .email-form { margin-top: 3rem; }\n        .email-input { padding: 1rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem; width: 100%; max-width: 350px; margin-bottom: 1rem; }\n        .submit-btn { background: {{primaryColor}}; color: white; padding: 1rem 2rem; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; }\n        .trust-badge { margin-top: 2rem; font-size: 0.9rem; opacity: 0.7; }\n        @media (max-width: 768px) { h1 { font-size: 2rem; } .subheadline { font-size: 1rem; } .container { padding: 1rem; } }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"hero\">\n            <h1>{{headline}}</h1>\n            <p class=\"subheadline\">{{subheadline}}</p>\n            <form class=\"email-form\" method=\"POST\" data-netlify=\"true\" action=\"#\">\n                <input type=\"email\" name=\"email\" class=\"email-input\" placeholder=\"Enter your email\" required>\n                <br>\n                <button type=\"submit\" class=\"submit-btn\">{{buttonText}}</button>\n            </form>\n            <p class=\"trust-badge\">🔒 Your email is safe with us. Unsubscribe anytime.</p>\n        </div>\n    </div>\n</body>\n</html>",
+            "defaults": {
+                "headline": "Something Amazing Is Coming",
+                "subheadline": "Be the first to know when we launch our groundbreaking new product",
+                "buttonText": "Get Early Access"
+            }
+        },
+        "lead-magnet": {
+            "name": "Lead Magnet",
+            "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>{{headline}} - Free Download</title>\n    <meta name=\"description\" content=\"{{subheadline}}\">\n    <style>\n        * { margin: 0; padding: 0; box-sizing: border-box; }\n        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: {{textColor}}; background: {{backgroundColor}}; }\n        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }\n        .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; text-align: center; }\n        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }\n        .subheadline { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.8; }\n        .download-box { background: white; border: 2px solid {{primaryColor}}; border-radius: 1rem; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }\n        .email-form { margin-top: 1rem; }\n        .email-input { padding: 1rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem; width: 100%; max-width: 350px; margin-bottom: 1rem; }\n        .submit-btn { background: {{primaryColor}}; color: white; padding: 1rem 2rem; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; max-width: 350px; }\n        .benefits { text-align: left; margin: 1rem 0; }\n        .benefit { margin: 0.5rem 0; }\n        .benefit::before { content: '✓'; color: {{primaryColor}}; font-weight: bold; margin-right: 0.5rem; }\n        .trust-badge { margin-top: 1rem; font-size: 0.9rem; opacity: 0.7; }\n        @media (max-width: 768px) { h1 { font-size: 2rem; } .container { padding: 1rem; } .download-box { padding: 1rem; } }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"hero\">\n            <h1>{{headline}}</h1>\n            <p class=\"subheadline\">{{subheadline}}</p>\n            <div class=\"download-box\">\n                <div class=\"benefits\">\n                    <div class=\"benefit\">Proven strategies that actually work</div>\n                    <div class=\"benefit\">Step-by-step implementation guide</div>\n                    <div class=\"benefit\">Real examples and case studies</div>\n                </div>\n                <form class=\"email-form\" method=\"POST\" data-netlify=\"true\" action=\"#\">\n                    <input type=\"email\" name=\"email\" class=\"email-input\" placeholder=\"Enter your email\" required>\n                    <br>\n                    <button type=\"submit\" class=\"submit-btn\">{{buttonText}}</button>\n                </form>\n                <p class=\"trust-badge\">🔒 Your email is safe with us. Unsubscribe anytime.</p>\n            </div>\n        </div>\n    </div>\n</body>\n</html>",
+            "defaults": {
+                "headline": "Free Blueprint: 10x Your Results",
+                "subheadline": "Download our step-by-step guide that's helped 1000+ people achieve breakthrough results",
+                "buttonText": "Download Free Guide"
+            }
+        },
+        "service-signup": {
+            "name": "Service Signup",
+            "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>{{headline}} - Professional Service</title>\n    <meta name=\"description\" content=\"{{subheadline}}\">\n    <style>\n        * { margin: 0; padding: 0; box-sizing: border-box; }\n        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: {{textColor}}; background: {{backgroundColor}}; }\n        .container { max-width: 800px; margin: 0 auto; padding: 2rem; text-align: center; }\n        .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; }\n        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }\n        .subheadline { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.8; }\n        .service-box { background: white; border-radius: 1rem; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }\n        .features { margin: 2rem 0; }\n        .feature { margin: 1rem 0; font-size: 1.1rem; }\n        .feature::before { content: '→'; color: {{primaryColor}}; font-weight: bold; margin-right: 0.5rem; }\n        .email-form { margin-top: 2rem; }\n        .email-input { padding: 1rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem; width: 100%; max-width: 350px; margin-bottom: 1rem; }\n        .submit-btn { background: {{primaryColor}}; color: white; padding: 1rem 2rem; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; }\n        .trust-badge { margin-top: 1rem; font-size: 0.9rem; opacity: 0.7; }\n        @media (max-width: 768px) { h1 { font-size: 2rem; } .container { padding: 1rem; } .service-box { padding: 1rem; } }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"hero\">\n            <h1>{{headline}}</h1>\n            <p class=\"subheadline\">{{subheadline}}</p>\n            <div class=\"service-box\">\n                <div class=\"features\">\n                    <div class=\"feature\">Expert consultation and strategy</div>\n                    <div class=\"feature\">Personalized implementation plan</div>\n                    <div class=\"feature\">Ongoing support and guidance</div>\n                    <div class=\"feature\">Results guaranteed or money back</div>\n                </div>\n                <form class=\"email-form\" method=\"POST\" data-netlify=\"true\" action=\"#\">\n                    <input type=\"email\" name=\"email\" class=\"email-input\" placeholder=\"Your business email\" required>\n                    <br>\n                    <button type=\"submit\" class=\"submit-btn\">{{buttonText}}</button>\n                </form>\n                <p class=\"trust-badge\">🔒 Professional consultation. No spam, ever.</p>\n            </div>\n        </div>\n    </div>\n</body>\n</html>",
+            "defaults": {
+                "headline": "Transform Your Business",
+                "subheadline": "Get expert help to accelerate your growth and achieve your goals faster",
+                "buttonText": "Book Free Consultation"
+            }
+        },
+        "event-registration": {
+            "name": "Event Registration",
+            "html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>{{headline}} - Live Event</title>\n    <meta name=\"description\" content=\"{{subheadline}}\">\n    <style>\n        * { margin: 0; padding: 0; box-sizing: border-box; }\n        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: {{textColor}}; background: {{backgroundColor}}; }\n        .container { max-width: 800px; margin: 0 auto; padding: 2rem; text-align: center; }\n        .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; }\n        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }\n        .subheadline { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.8; }\n        .event-box { background: white; border-radius: 1rem; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }\n        .event-details { margin: 2rem 0; font-size: 1.1rem; }\n        .detail { margin: 0.5rem 0; padding: 0.5rem; background: #f8fafc; border-radius: 0.5rem; }\n        .urgency { background: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; font-weight: 600; }\n        .email-form { margin-top: 2rem; }\n        .email-input { padding: 1rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; font-size: 1rem; width: 100%; max-width: 350px; margin-bottom: 1rem; }\n        .submit-btn { background: {{primaryColor}}; color: white; padding: 1rem 2rem; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; }\n        .trust-badge { margin-top: 1rem; font-size: 0.9rem; opacity: 0.7; }\n        @media (max-width: 768px) { h1 { font-size: 2rem; } .container { padding: 1rem; } .event-box { padding: 1rem; } }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <div class=\"hero\">\n            <h1>{{headline}}</h1>\n            <p class=\"subheadline\">{{subheadline}}</p>\n            <div class=\"event-box\">\n                <div class=\"event-details\">\n                    <div class=\"detail\">📅 March 15, 2026 at 2:00 PM EST</div>\n                    <div class=\"detail\">⏰ 90 minutes of intensive training</div>\n                    <div class=\"detail\">🎯 Limited to 100 participants</div>\n                    <div class=\"detail\">💻 Live on Zoom with Q&A</div>\n                </div>\n                <div class=\"urgency\">⚡ Only 23 spots remaining!</div>\n                <form class=\"email-form\" method=\"POST\" data-netlify=\"true\" action=\"#\">\n                    <input type=\"email\" name=\"email\" class=\"email-input\" placeholder=\"Enter your email\" required>\n                    <br>\n                    <button type=\"submit\" class=\"submit-btn\">{{buttonText}}</button>\n                </form>\n                <p class=\"trust-badge\">🔒 Your email is safe. Event link sent instantly.</p>\n            </div>\n        </div>\n    </div>\n</body>\n</html>",
+            "defaults": {
+                "headline": "Master the Fundamentals",
+                "subheadline": "Join our live workshop and learn the proven system that's transformed 500+ businesses",
+                "buttonText": "Reserve My Seat"
+            }
+        }
+    }
+    </script>
+
+    <script src="app.js"></script>
+</body>
+</html>
